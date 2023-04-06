@@ -88,12 +88,14 @@ class Library {
 
   // Create a method that will remove a book from the Library
   removeBook(id) {
-    this.books.forEach((book, index) => {
-      if (id === book.id) {
-        this.books.splice(index, 1);
+    let parsedId = parseInt(id);
+
+    for (let i = 0; i < this.books.length; i++) {
+      if (parsedId === this.books[i].id) {
+        this.books.splice(i, 1);
         this.bookCount--;
       }
-    });
+    }
   }
 
   openForm() {
