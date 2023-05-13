@@ -37,7 +37,6 @@ var Book = /** @class */ (function () {
     return Book;
 }());
 var books = [];
-var booksToAdd = recommendedBooks.slice(0, 3);
 var Library = /** @class */ (function () {
     function Library(books) {
         this.bookCount = books.length;
@@ -47,8 +46,6 @@ var Library = /** @class */ (function () {
         this.books.forEach(function (book) {
             if (id === book.id) {
                 book.read = true;
-                checkbox.checked = true;
-                checkbox.disabled = true;
             }
         });
     };
@@ -75,7 +72,6 @@ var Library = /** @class */ (function () {
         newCheckbox.type = 'checkbox';
         newCheckbox.className = 'readLibraryCheckbox';
         newCheckbox.checked = read;
-        newCheckbox.disabled = read;
         newRead.appendChild(newCheckbox);
         newTr.appendChild(newRead);
         var newReadLabel = document.createElement('label');
@@ -91,7 +87,7 @@ var Library = /** @class */ (function () {
         this.books.push(newBook);
         // Increment bookCount (index)
         this.bookCount++;
-        // Mark book as read and disable it
+        // Mark book as read
         newCheckbox.addEventListener('click', function (e) {
             _this.markRead(e.target, newBook.id);
         });
@@ -111,23 +107,18 @@ var Library = /** @class */ (function () {
         var _a;
         form.style.display = 'block';
         openFormBtn.style.display = 'none';
-        (_a = document.getElementById('title')) === null || _a === void 0 ? void 0 : _a.focus;
-        recommendBtn.style.display = 'none';
+        (_a = document.getElementById('title')) === null || _a === void 0 ? void 0 : _a.focus();
     };
     // Close form
     Library.prototype.closeForm = function () {
         form.style.display = 'none';
         openFormBtn.style.display = 'block';
         form.reset();
-        recommendBtn.style.display = 'block';
-        // Hide button if all books have been added
-        if (recommendedBooks.length === 0) {
-            recommendBtn.style.display = 'none';
-        }
     };
     // Recommend books
     Library.prototype.recommendBooks = function () {
         var _this = this;
+        var booksToAdd = recommendedBooks.slice(0, 3);
         // Add each book to the table
         booksToAdd.forEach(function (book, index) {
             // Create new row
@@ -144,7 +135,6 @@ var Library = /** @class */ (function () {
             var newCheckbox = document.createElement('input');
             newCheckbox.type = 'checkbox';
             newCheckbox.className = 'readLibraryCheckbox';
-            newCheckbox.disabled = false;
             newRead.appendChild(newCheckbox);
             newTr.appendChild(newRead);
             newTr.style.opacity = '0';
@@ -162,6 +152,10 @@ var Library = /** @class */ (function () {
             newTr.appendChild(newDelete);
             // Increment bookCount (index)
             _this.bookCount++;
+            // Mark book as read
+            newCheckbox.addEventListener('click', function (e) {
+                _this.markRead(e.target, newBook.id);
+            });
             // Fade in the book
             setTimeout(function () {
                 newTr.style.opacity = String(1);
@@ -184,6 +178,7 @@ openFormBtn.addEventListener('click', function () {
 // Add event listener to recommendBtn
 recommendBtn.addEventListener('click', function () {
     library.recommendBooks();
+    library.closeForm();
 });
 // Add event listener to formBtn submit button
 form.addEventListener('submit', function (e) {

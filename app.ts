@@ -46,8 +46,6 @@ class Book {
 
 const books: Book[] = [];
 
-const booksToAdd = recommendedBooks.slice(0, 3);
-
 class Library {
   bookCount: number;
   books: Book[];
@@ -61,8 +59,6 @@ class Library {
     this.books.forEach((book) => {
       if (id === book.id) {
         book.read = true;
-        checkbox.checked = true;
-        checkbox.disabled = true;
       }
     });
   }
@@ -94,7 +90,6 @@ class Library {
     newCheckbox.type = 'checkbox';
     newCheckbox.className = 'readLibraryCheckbox';
     newCheckbox.checked = read;
-    newCheckbox.disabled = read;
     newRead.appendChild(newCheckbox);
     newTr.appendChild(newRead);
 
@@ -115,7 +110,7 @@ class Library {
     // Increment bookCount (index)
     this.bookCount++;
 
-    // Mark book as read and disable it
+    // Mark book as read
     newCheckbox.addEventListener('click', (e) => {
       this.markRead(e.target as HTMLInputElement, newBook.id);
     });
@@ -137,8 +132,7 @@ class Library {
   openForm(): void {
     form.style.display = 'block';
     openFormBtn.style.display = 'none';
-    document.getElementById('title')?.focus;
-    recommendBtn.style.display = 'none';
+    document.getElementById('title')?.focus();
   }
 
   // Close form
@@ -146,15 +140,12 @@ class Library {
     form.style.display = 'none';
     openFormBtn.style.display = 'block';
     form.reset();
-    recommendBtn.style.display = 'block';
-    // Hide button if all books have been added
-    if (recommendedBooks.length === 0) {
-      recommendBtn.style.display = 'none';
-    }
   }
 
   // Recommend books
   recommendBooks(): void {
+    const booksToAdd = recommendedBooks.slice(0, 3);
+
     // Add each book to the table
     booksToAdd.forEach((book, index) => {
       // Create new row
@@ -174,7 +165,6 @@ class Library {
       const newCheckbox = document.createElement('input');
       newCheckbox.type = 'checkbox';
       newCheckbox.className = 'readLibraryCheckbox';
-      newCheckbox.disabled = false;
       newRead.appendChild(newCheckbox);
       newTr.appendChild(newRead);
       newTr.style.opacity = '0';
@@ -196,6 +186,11 @@ class Library {
 
       // Increment bookCount (index)
       this.bookCount++;
+
+      // Mark book as read
+      newCheckbox.addEventListener('click', (e) => {
+        this.markRead(e.target as HTMLInputElement, newBook.id);
+      });
 
       // Fade in the book
       setTimeout(() => {
@@ -223,6 +218,7 @@ openFormBtn.addEventListener('click', () => {
 // Add event listener to recommendBtn
 recommendBtn.addEventListener('click', () => {
   library.recommendBooks();
+  library.closeForm();
 });
 
 // Add event listener to formBtn submit button

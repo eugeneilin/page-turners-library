@@ -211,10 +211,6 @@ label[for='read'] {
   border-radius: var(--border-radius);
 }
 
-.readLibraryCheckbox:disabled + label {
-  background: var(--secondary-transparent);
-}
-
 .deleteBtn {
   /* display: none; */
   background: url(delete.png) no-repeat center / contain;
