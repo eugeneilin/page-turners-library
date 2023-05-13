@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;400&family=Arimo:wght@400;500&display=swap');
 
 * {
   box-sizing: border-box;
@@ -16,6 +16,7 @@
   --transition: 0.2s;
   --border-radius: 3px;
   --main-font: 'Oswald', sans-serif;
+  --secondary-font: 'Arimo', sans-serif;
 }
 
 ::-moz-selection {
@@ -54,6 +55,11 @@ button {
   padding: 0.5rem 0;
   transition: var(--transition);
   border-radius: var(--border-radius);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 button:hover {
@@ -89,6 +95,8 @@ main {
 #table th {
   padding-bottom: 0.4rem;
   color: var(--secondary-color);
+  font-family: var(--secondary-font);
+  text-transform: uppercase;
 }
 
 #table tbody tr {
@@ -96,7 +104,7 @@ main {
 }
 
 #table td {
-  padding-left: 0.2rem;
+  padding-left: 0.1rem;
 }
 
 #table th:first-of-type,
@@ -137,6 +145,7 @@ main {
   justify-content: center;
   color: white;
   margin: auto;
+  font-size: 1rem;
 }
 
 #openForm > div:hover {
@@ -147,7 +156,7 @@ main {
   border: 1px solid white;
 }
 
-#readLibraryCheckbox {
+.readLibraryCheckbox {
   z-index: 1;
   width: 1.5rem;
   height: 1.5rem;
@@ -168,12 +177,12 @@ label[for='read'] {
   border-radius: var(--border-radius);
 }
 
-#readLibraryCheckbox:checked + label,
+.readLibraryCheckbox:checked + label,
 #read:checked + label {
   background: var(--secondary-color);
 }
 
-#readLibraryCheckbox:checked + label > div,
+.readLibraryCheckbox:checked + label > div,
 #read:checked + label > div {
   background: var(--third-color);
   width: 9px;
@@ -186,7 +195,7 @@ label[for='read'] {
   border-radius: var(--border-radius);
 }
 
-#readLibraryCheckbox:checked + label > div:after,
+.readLibraryCheckbox:checked + label > div:after,
 #read:checked + label > div:after {
   content: '';
   background: var(--third-color);
@@ -200,7 +209,7 @@ label[for='read'] {
   border-radius: var(--border-radius);
 }
 
-#readLibraryCheckbox:disabled + label {
+.readLibraryCheckbox:disabled + label {
   background: var(--secondary-transparent);
 }
 
@@ -213,7 +222,7 @@ label[for='read'] {
   right: -1.5rem;
   top: 50%;
   transform: translateY(-50%);
-  opacity: 0.5;
+  opacity: 0.3;
   transition: var(--transition);
 }
 
@@ -271,13 +280,20 @@ label[for='read'] {
 
 #form label[for='read'] {
   margin-right: 2px;
+  bottom: 8px;
 }
 
 #submitBtn {
   margin-top: 2rem;
 }
 
-#submitBtn:hover {
+#recommendBtn {
+  margin-top: 2rem;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+#submitBtn:hover,
+#recommendBtn:hover {
   background-color: var(--secondary-color);
 }
 
@@ -314,5 +330,15 @@ a:hover {
   .container {
     padding-left: 25%;
     padding-right: 25%;
+  }
+
+  #submitBtn {
+    font-size: 1rem;
+  }
+
+  #form input:not(:focus),
+  #form input:active,
+  #form input:focus {
+    font-size: 1.1rem;
   }
 }
