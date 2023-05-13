@@ -2,36 +2,33 @@
 
 // Recommended books
 const recommendedBooks = [
-  { title: 'The 7 Habits of Highly Effective People', author: 'Stephen Covey', read: false },
+  { title: 'Redefining Anxiety', author: 'John Delony', read: false },
   { title: 'Think and Grow Rich', author: 'Napoleon Hill', read: false },
-  { title: 'The Power of Positive Thinking', author: 'Norman Vincent Peale', read: false },
+  { title: 'Better Than Good', author: 'Zig Ziglar', read: false },
   { title: 'Awaken the Giant Within', author: 'Tony Robbins', read: false },
   { title: 'The Alchemist', author: 'Paulo Coelho', read: false },
-  { title: "Man's Search for Meaning", author: 'Viktor E. Frankl', read: false },
-  { title: 'The Magic of Thinking Big', author: 'David J. Schwartz', read: false },
-  { title: 'The 5 AM Club', author: 'Robin Sharma', read: false },
+  { title: 'The Millionaire Next Door', author: 'Thomas J. Stanley', read: false },
+  { title: 'No Excuses!', author: 'Brian Tracy', read: false },
+  { title: 'The Total Money Makeover', author: 'Dave Ramsey', read: false },
   { title: 'Atomic Habits', author: 'James Clear', read: false },
-  { title: 'The One Thing', author: 'Gary Keller', read: false },
-  { title: 'Essentialism: The Disciplined Pursuit of Less', author: 'Greg McKeown', read: false },
+  { title: 'Do More Better', author: 'Tim Challies', read: false },
+  { title: 'How To Win Friends And Influence People', author: 'Dale Carnegie', read: false },
   { title: 'Deep Work', author: 'Cal Newport', read: false },
-  { title: 'The Lean Startup', author: 'Eric Ries', read: false },
+  { title: 'A Praying Life', author: 'Paul E. Miller', read: false },
   { title: 'Start with Why', author: 'Simon Sinek', read: false },
-  { title: 'Good to Great', author: 'Jim Collins', read: false },
+  { title: 'Fight Your Fear And Win', author: 'Don Greene, PhD', read: false },
   { title: 'The Compound Effect', author: 'Darren Hardy', read: false },
   { title: 'The 4-Hour Work Week', author: 'Tim Ferriss', read: false },
-  { title: 'Crush It!', author: 'Gary Vaynerchuk', read: false },
-  { title: 'The $100 Startup', author: 'Chris Guillebeau', read: false },
-  {
-    title: 'The Art of Possibility',
-    author: 'Rosamund Stone Zander and Benjamin Zander',
-    read: false,
-  },
+  { title: '12 Rules for Life', author: 'Jordan Peterson', read: false },
+  { title: "Don't Waste Your Life", author: 'John Piper', read: false },
+  { title: 'Made for Friendship', author: 'Drew Hunter', read: false },
 ];
 
 // Get DOM elements
 const form = document.querySelector('#form') as HTMLFormElement;
 const openFormBtn = document.querySelector('#openForm') as HTMLButtonElement;
 const tBody = document.querySelector('tbody') as HTMLTableSectionElement;
+const recommendBtn = document.querySelector('#recommendBtn') as HTMLButtonElement;
 
 class Book {
   id: number;
@@ -48,6 +45,8 @@ class Book {
 }
 
 const books: Book[] = [];
+
+const booksToAdd = recommendedBooks.slice(0, 3);
 
 class Library {
   bookCount: number;
@@ -139,6 +138,7 @@ class Library {
     form.style.display = 'block';
     openFormBtn.style.display = 'none';
     document.getElementById('title')?.focus;
+    recommendBtn.style.display = 'none';
   }
 
   // Close form
@@ -146,14 +146,17 @@ class Library {
     form.style.display = 'none';
     openFormBtn.style.display = 'block';
     form.reset();
+    recommendBtn.style.display = 'block';
+    // Hide button if all books have been added
+    if (recommendedBooks.length === 0) {
+      recommendBtn.style.display = 'none';
+    }
   }
 
   // Recommend books
   recommendBooks(): void {
-    const booksToAdd = recommendedBooks.slice(0, 5);
-
     // Add each book to the table
-    booksToAdd.forEach((book) => {
+    booksToAdd.forEach((book, index) => {
       // Create new row
       const newTr = document.createElement('tr');
       tBody.appendChild(newTr);
@@ -174,6 +177,7 @@ class Library {
       newCheckbox.disabled = false;
       newRead.appendChild(newCheckbox);
       newTr.appendChild(newRead);
+      newTr.style.opacity = '0';
 
       let newReadLabel = document.createElement('label');
       newReadLabel.htmlFor = 'readLibraryCheckbox';
@@ -192,14 +196,18 @@ class Library {
 
       // Increment bookCount (index)
       this.bookCount++;
+
+      // Fade in the book
+      setTimeout(() => {
+        newTr.style.opacity = String(1);
+      }, 200 * (index + 1));
     });
 
     // Remove added books from recommendedBooks array
-    recommendedBooks.splice(0, 5);
+    recommendedBooks.splice(0, 3);
 
     // Hide button if all books have been added
     if (recommendedBooks.length === 0) {
-      const recommendBtn = document.querySelector('#recommendBtn') as HTMLButtonElement;
       recommendBtn.style.display = 'none';
     }
   }
@@ -213,7 +221,6 @@ openFormBtn.addEventListener('click', () => {
 });
 
 // Add event listener to recommendBtn
-const recommendBtn = document.querySelector('#recommendBtn') as HTMLButtonElement;
 recommendBtn.addEventListener('click', () => {
   library.recommendBooks();
 });

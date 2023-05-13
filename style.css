@@ -60,6 +60,7 @@ button {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  font-family: var(--secondary-font);
 }
 
 button:hover {
@@ -101,6 +102,7 @@ main {
 
 #table tbody tr {
   position: relative;
+  transition: var(--transition);
 }
 
 #table td {
